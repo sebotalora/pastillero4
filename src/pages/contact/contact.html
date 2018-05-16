@@ -1,17 +1,104 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Contact
+      Perfil
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
-  </ion-list>
+
+  <ion-row>
+    <ion-col class="col-center">
+      <ion-img width="80" height="80" src="assets/imgs/foto-perfil.png"></ion-img>
+    </ion-col>
+</ion-row>
+<ion-row>
+    <ion-col class="col-center">
+        <strong>Xavier Gárate</strong>
+    </ion-col>
+</ion-row>
+<hr>
+
+<ion-list no-border>
+
+<ion-list-header>
+  Estudies
+</ion-list-header>
+
+<ion-item>
+  <ion-icon name='school' item-left></ion-icon>
+  Telecomunication<br>Engineer
+  <ion-note item-right>
+  2009-2014
+  </ion-note>
+</ion-item>
+
+<ion-item>
+  <ion-icon name='school' item-left></ion-icon>
+  Master in Business<br>Administration
+  <ion-note item-right>
+  2015-2017
+  </ion-note>
+</ion-item>
+
+
+
+</ion-list>
+
+
+<ion-list>
+
+<ion-list-header>
+  Work Experience
+</ion-list-header>
+
+<ion-item>
+  Ernst&Young
+  <ion-icon name='briefcase' item-left></ion-icon>
+  <ion-note item-right>2015-2017</ion-note>
+</ion-item>
+
+<ion-item>
+  <ion-icon name='briefcase' item-left></ion-icon>
+  Finanzarel
+  <ion-note item-right>2009-2015</ion-note>
+</ion-item>
+
+
+</ion-list>
+
+<ion-list>
+
+<ion-list-header>
+  Others
+</ion-list-header>
+
+<ion-item>
+  <ion-icon name='car' item-left></ion-icon>
+  Dreiver's license
+  <ion-note item-right></ion-note>
+</ion-item>
+
+<ion-item>
+  <ion-icon name='american-football' item-left></ion-icon>
+  American Football
+  <ion-note item-right></ion-note>
+</ion-item>
+
+<ion-item>
+  <ion-icon name='people' item-left></ion-icon>
+  Friends
+  <ion-note item-right></ion-note>
+</ion-item>
+
+<ion-item>
+  <ion-icon name='book' item-left></ion-icon>
+  Lecture
+  <ion-note item-right></ion-note>
+</ion-item>
+
+</ion-list>
+
+  <button ion-button block color="danger" (click)="cerrarSesion()">Cerrar Sesión</button>
 </ion-content>

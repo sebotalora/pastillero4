@@ -1,6 +1,6 @@
 {
-  "name": "pastillero_4",
-  "app_id": "",
+  "name": "pastillero_3",
+  "app_id": "1076a850",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
