@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Camera } from '@ionic-native/camera';
-import { NavController, ModalController, ActionSheetController } from 'ionic-angular';
+import { NavController, ModalController, ActionSheetController, AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'page-about',
@@ -8,16 +8,16 @@ import { NavController, ModalController, ActionSheetController } from 'ionic-ang
 })
 export class AboutPage {
 
-  images: any = [];
-
+  
 
   public base64Image: string;
   
   constructor(public navCtrl: NavController,  
     private camera: Camera, private actionSheetCtrl: ActionSheetController, 
-    private modalCtrl: ModalController) {
-  
-  }
+    private modalCtrl: ModalController, private alertCtrl: AlertController) {
+
+     
+    }
 
 
   
@@ -41,7 +41,23 @@ this.camera.getPicture(options).then((imagePath) => {
 });
 }
     
+grafica(){
+  this.showPopup('Gráficas', 'Mostrar una grafica');
+}
 
+showPopup(title, text) {
+  let alert = this.alertCtrl.create({
+    title: title,
+    subTitle: text,
+    buttons: [
+      {
+        text: 'OK'
+        
+      }
+    ]
+  });
+  alert.present();
+}
 
 
 presentActionSheet() {
@@ -56,6 +72,12 @@ presentActionSheet() {
       },
       {
         text: 'Tomar Fotografía',
+        handler: () => {
+          this.takePicture(this.camera.PictureSourceType.CAMERA);
+        }
+      },
+      {
+        text: 'Insertar formula manualmente',
         handler: () => {
           this.takePicture(this.camera.PictureSourceType.CAMERA);
         }

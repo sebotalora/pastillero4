@@ -22,6 +22,8 @@ import { RegistroPageModule } from '../pages/registro/registro.module';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { BdfirebaseProvider } from '../providers/bdfirebase/bdfirebase';
 
 
 export const firebaseConfig = {
@@ -48,7 +50,8 @@ export const firebaseConfig = {
     HttpModule,
     LoginPageModule,
     RegistroPageModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -66,7 +69,8 @@ export const firebaseConfig = {
     FileTransfer,
     Camera,
     AngularFireAuth,
-    AutenticacionProvider
+    AutenticacionProvider,
+    BdfirebaseProvider
   ]
 })
 export class AppModule {}

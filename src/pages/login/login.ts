@@ -63,7 +63,9 @@ export class LoginPage {
 
     
   }
-
+  public signUp() {
+    this.navCtrl.push(RegistroPage);
+  }
   public goSignUp() {
     
     this.auth.registerUser(this.user.email,this.user.password)
@@ -80,21 +82,9 @@ export class LoginPage {
     })
     
     
-    this.navCtrl.push(RegistroPage);
- }
-
- onGoogleLogin(){
-  this.navCtrl.push(RegistroPage);
+    
  }
 
 
- onFacebookLogin() {
-  this.navCtrl.push(RegistroPage);
- }
-
-
- onTwitterLogin(){
-  this.navCtrl.push(RegistroPage);
- }
 
 }

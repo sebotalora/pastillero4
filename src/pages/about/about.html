@@ -6,8 +6,23 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  
+<ion-content padding class="card-background-page">
+    
+  <ion-card>
+          <img id="image" src="assets/imgs/myjobs/receta1.jpg"/>
+          <div class="card-title">Formula 1</div>
+          <div class="card-subtitle">12 de Diciembre 2017</div>
+        </ion-card>
+      
+        <ion-card>
+          <img id="image" src="assets/imgs/myjobs/receta2.jpg"/>
+          <div class="card-title">Formula 2</div>
+          <div class="card-subtitle">13 de Abril 2018</div>
+        </ion-card>
+  <ion-fab left bottom>
+    <button ion-fab color="primary" (click)="grafica()"><ion-icon name="pie"></ion-icon></button>
+</ion-fab>
+
     <ion-fab right bottom>
         <button ion-fab color="secondary" (click)="presentActionSheet()"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
