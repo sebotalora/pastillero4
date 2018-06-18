@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>pastillero_3</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <name>Pastillero</name>
+    <description>Gestor de notificaciones para recetas médicas. Creado por el Grupo Gesdatos de la Universidad Distrital. Bogotá, Colombia</description>
+    <author email="jsotaloral@correo.udistrital.edu.co" href="https://www.udistrital.edu.co/">Otalora / Bravo - Gesdatos</author>
+    <content original-src="index.html" src="http://192.168.1.151:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -85,5 +85,8 @@
     <allow-navigation href="http://192.168.1.153:8100" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
-    <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.2" />
+    <allow-navigation href="http://192.168.0.5:8100" />
+    <allow-navigation href="http://192.168.1.151:8100" />
+    <engine name="android" spec="^6.3.0" />
 </widget>

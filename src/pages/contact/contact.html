@@ -15,7 +15,7 @@
 </ion-row>
 <ion-row>
     <ion-col class="col-center">
-        <strong>Pedro Ramírez</strong>
+        <strong>{{perfil_[3]}}</strong>
     </ion-col>
 </ion-row>
 <hr>
@@ -28,17 +28,23 @@
 
 <ion-item>
   <ion-icon name='person' item-left></ion-icon>
-  Pedro José
+  {{perfil_[3]}}
+  <ion-note item-right>
+    Nombre
+    </ion-note>
 </ion-item>
 
 <ion-item>
   <ion-icon name='person' item-left></ion-icon>
-  Ramírez Castro
+  {{perfil_[0]}}
+  <ion-note item-right>
+    Apellido
+    </ion-note>
 </ion-item>
 
 <ion-item>
   <ion-icon name='heart' item-left></ion-icon>
-  14 de Mayo de 1965
+  {{perfil_[6]}}
   <ion-note item-right>
   Nacimiento
   </ion-note>
@@ -56,20 +62,25 @@
 </ion-list-header>
 
 <ion-item>
-  pedrojose@gmail.com
+  {{perfil_[1]}}
   <ion-icon name='mail' item-left></ion-icon>
-
+  <ion-note item-right>
+    Correo
+    </ion-note>
 </ion-item>
 
 <ion-item>
   <ion-icon name='call' item-left></ion-icon>
-  315 456 5263
+  {{perfil_[5]}}
+  <ion-note item-right>
+    Teléfono
+    </ion-note>
 
 </ion-item>
 
 
 </ion-list>
 
-
+<button ion-button block color="secondary" (click)="tempo()">Editar</button>
   <button ion-button block color="danger" (click)="cerrarSesion()">Cerrar Sesión</button>
 </ion-content>

@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-navbar color="secondary" hideBackButton >
+    <ion-title>Confirmar: Medicamento # 1</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <p style="font-weight: bold;" color="secondary">Por favor, verifique y/o modifique la información del medicamento #  .</p>
+  <form >
+      <ion-row>
+        
+
+             
+                  <ion-label style="font-weight: bold;">Medicamento:</ion-label>
+              
+
+            <ion-item>
+              <ion-input type="text" placeholder="Medicamento"  required></ion-input>
+            </ion-item>
+            
+      
+        
+      </ion-row>
+      <ion-row>
+          <ion-label style="font-weight: bold;">Cantidad total y Presentación del Medicamento:</ion-label>
+          
+      </ion-row>
+            
+          <ion-row>
+              
+            <ion-col col-6>
+                <ion-item>
+                    <ion-label stacked>Cantidad:</ion-label>
+                    <ion-input type="number" placeholder="Cantidad"  required></ion-input>
+                  </ion-item>
+            </ion-col>
+            <ion-col col-6>
+                <ion-item>
+                    <ion-label stacked>Presentación:</ion-label>
+                    <ion-select >
+                        
+                      <ion-option value="tabletas">tabletas</ion-option>
+                      <ion-option value="pastillas">pastillas</ion-option>
+                      <ion-option value="cucharadas">cucharadas</ion-option>
+                    </ion-select>
+                  </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+              <ion-label >Frecuencia de consumo:</ion-label>
+          </ion-row>
+          
+              <ion-row>
+                  
+                <ion-col col-6>
+                    <ion-item>
+                        <ion-label stacked>Cantidad:</ion-label>
+                        <ion-input type="number" placeholder="Cantidad"  required></ion-input>
+                      </ion-item>
+                </ion-col>
+                <ion-col col-6>
+                    <ion-item>
+                        <ion-label stacked>Unidad de tiempo:</ion-label>
+                        <ion-select >
+                           
+                          <ion-option value="horas">horas</ion-option>
+                          <ion-option value="dias">dias</ion-option>
+                          <ion-option value="semanas">semanas</ion-option>
+                        </ion-select>
+                      </ion-item>
+                </ion-col>
+              </ion-row>
+               
+
+                  <ion-row>
+                    <ion-label >Fecha/Hora inicio de consumo:</ion-label>
+                </ion-row>
+                
+                    <ion-row>
+                        
+                      <ion-col col-6>
+                        <ion-item>
+                          <ion-label stacked>Fecha:</ion-label>
+                          <ion-datetime displayFormat="YYYY-MMMM-DD"></ion-datetime>
+                        </ion-item>
+                      </ion-col>
+                      <ion-col col-6>
+                        <ion-item>
+                          <ion-label stacked>Hora:</ion-label>
+                          <ion-datetime displayFormat="H:m"></ion-datetime>
+                        </ion-item>
+                      </ion-col>
+                    </ion-row>   
+      <ion-row>
+        <ion-col>
+          <button ion-button class="submit-btn" full type="submit" color="secondary" >Confirmar y Continuar</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button class="submit-btn" full type="submit" color="danger" >Descartar Medicamento</button>
+        </ion-col>
+      </ion-row>
+
+    </form>
+</ion-content>

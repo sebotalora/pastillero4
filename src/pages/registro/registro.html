@@ -11,7 +11,7 @@
           <ion-list inset>
 
             <ion-item>
-              <ion-input type="text" placeholder="Name" name="name" [(ngModel)]="registerCredentials.name" required></ion-input>
+              <ion-input type="text" placeholder="Nombre" name="name" [(ngModel)]="registerCredentials.name" required></ion-input>
             </ion-item>
 
             <ion-item>
@@ -26,18 +26,21 @@
               <ion-item>
                   <ion-input type="text" placeholder="Edad" name="edad" [(ngModel)]="registerCredentials.edad" required></ion-input>
                 </ion-item>
+                <ion-item>
+                  <ion-datetime placeholder="Fecha de Nacimiento" displayFormat="YYYY-MM-DD"></ion-datetime>
+                </ion-item>
 
 
             <ion-item>
-              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
+              <ion-input type="text" placeholder="Correo" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
+              <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-input type="password" placeholder="Confirm Password" name="confirmation_password" [(ngModel)]="registerCredentials.confirmation_password" required></ion-input>
+              <ion-input type="password" placeholder="Confirmar Contraseña" name="confirmation_password" [(ngModel)]="registerCredentials.confirmation_password" required></ion-input>
             </ion-item>
 
           </ion-list>
@@ -46,7 +49,7 @@
 
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Register</button>
+          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Registrarme</button>
         </ion-col>
       </ion-row>
 

@@ -20,7 +20,7 @@ import { TabsPage } from '../tabs/tabs';
 export class RegistroPage {
 
   createSuccess = false;
-  registerCredentials = { name: '', email: '', password: '', confirmation_password: '', apellido:'', edad:'', telefono:'', sexo:''};
+  registerCredentials = { name: '', email: '', password: '', confirmation_password: '', apellido:'', edad:'', telefono:'', sexo:'',nacimiento:''};
 
   constructor(
     private nav: NavController, public loadingCtrl: LoadingController, private alertCtrl: AlertController, private auth: AutenticacionProvider, private bd: BdfirebaseProvider
@@ -28,7 +28,7 @@ export class RegistroPage {
 
   public register() {
     if (this.registerCredentials.password != this.registerCredentials.confirmation_password) {
-      this.showPopup("Error", 'The password confirmation does not match.');
+      this.showPopup("Error", 'La confirmación de contraseña no coincide.');
     } else {
       
       this.auth.registerUser(this.registerCredentials.email,this.registerCredentials.password )
@@ -45,7 +45,8 @@ export class RegistroPage {
                         this.registerCredentials.name,
                         this.registerCredentials.apellido,
                         this.registerCredentials.edad,
-                        this.registerCredentials.sexo
+                        this.registerCredentials.sexo,
+                        this.registerCredentials.nacimiento
                       );
                       
                       this.nav.push(TabsPage);

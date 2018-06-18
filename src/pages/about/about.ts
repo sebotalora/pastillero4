@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Camera } from '@ionic-native/camera';
 import { NavController, ModalController, ActionSheetController, AlertController } from 'ionic-angular';
+import { GraficasPage } from '../graficas/graficas';
 
 @Component({
   selector: 'page-about',
@@ -42,7 +43,8 @@ this.camera.getPicture(options).then((imagePath) => {
 }
     
 grafica(){
-  this.showPopup('Gráficas', 'Mostrar una grafica');
+  this.navCtrl.push(GraficasPage);
+  //this.showPopup('Gráficas', 'Mostrar una grafica');
 }
 
 showPopup(title, text) {
