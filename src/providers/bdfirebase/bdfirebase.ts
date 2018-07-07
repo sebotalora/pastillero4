@@ -59,5 +59,44 @@ export class BdfirebaseProvider {
     
   }
 
+  cantFormulas(id){
+    
+    firebase.database().ref('/historias/'+id+'/').on('value', (snapshot) => {
+      console.log("Cant Formulas "+id+": "+snapshot.numChildren());
+      console.log("Usuario: "+snapshot.key);
+
+      snapshot.forEach(childSnapshot => {
+        var keyFormula = childSnapshot.key;
+        console.log("Formula: "+keyFormula);
+        var fechaFormula = childSnapshot.child('fecha').val();
+        console.log("Fecha Formula: "+fechaFormula);
+        console.log("Cant Medicamentos: "+childSnapshot.child('medicamentos').numChildren());
+
+        childSnapshot.child('medicamentos').forEach(meds => {
+          var keyMed = meds.key;
+          console.log("Key_child_m: "+keyMed);
+          var fechainicio = meds.child('fecha_inicio').val();
+          console.log("Cantmed_child: "+fechainicio);
+                    
+          return false;
+        });
+
+        return false;
+      });
+
+      //return snapshot.numChildren();
+     });
+ }
+
+
+
+  addFormula(){
+
+  }
+
+  addMedicamento(){
+
+  }
+
   
 }

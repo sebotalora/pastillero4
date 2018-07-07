@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="secondary" hideBackButton >
-    <ion-title>Confirmar: Medicamento # 1</ion-title>
+    <ion-title>Confirmar: Medicamento # {{numero}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -15,7 +15,7 @@
               
 
             <ion-item>
-              <ion-input type="text" placeholder="Medicamento"  required></ion-input>
+              <ion-input type="text" placeholder="Medicamento" [(ngModel)]="medicamento" name="medicament" required></ion-input>
             </ion-item>
             
       
@@ -31,17 +31,16 @@
             <ion-col col-6>
                 <ion-item>
                     <ion-label stacked>Cantidad:</ion-label>
-                    <ion-input type="number" placeholder="Cantidad"  required></ion-input>
+                    <ion-input type="number" placeholder="Cantidad" [(ngModel)]="cantidad_total" name="cantidad_tota" required></ion-input>
                   </ion-item>
             </ion-col>
             <ion-col col-6>
                 <ion-item>
                     <ion-label stacked>Presentación:</ion-label>
-                    <ion-select >
-                        
-                      <ion-option value="tabletas">tabletas</ion-option>
-                      <ion-option value="pastillas">pastillas</ion-option>
-                      <ion-option value="cucharadas">cucharadas</ion-option>
+                    <ion-select [(ngModel)]="presentacion" name="presentacio">
+                           
+                      <ion-option *ngFor="let item of presentacionData" [value]="item" multiple="false" >{{item}}</ion-option>
+                      
                     </ion-select>
                   </ion-item>
             </ion-col>
@@ -55,17 +54,16 @@
                 <ion-col col-6>
                     <ion-item>
                         <ion-label stacked>Cantidad:</ion-label>
-                        <ion-input type="number" placeholder="Cantidad"  required></ion-input>
+                        <ion-input type="number" placeholder="Cantidad" [(ngModel)]="frecuencia_cant" name="frecuencia_can" required></ion-input>
                       </ion-item>
                 </ion-col>
                 <ion-col col-6>
                     <ion-item>
                         <ion-label stacked>Unidad de tiempo:</ion-label>
-                        <ion-select >
+                        <ion-select [(ngModel)]="frecuencia_utiempo" name="frecuencia_utiemp">
                            
-                          <ion-option value="horas">horas</ion-option>
-                          <ion-option value="dias">dias</ion-option>
-                          <ion-option value="semanas">semanas</ion-option>
+                          <ion-option *ngFor="let item of frecuenciaData" [value]="item" multiple="false" >{{item}}</ion-option>
+                          
                         </ion-select>
                       </ion-item>
                 </ion-col>
@@ -81,23 +79,36 @@
                       <ion-col col-6>
                         <ion-item>
                           <ion-label stacked>Fecha:</ion-label>
-                          <ion-datetime displayFormat="YYYY-MMMM-DD"></ion-datetime>
+                          <ion-datetime displayFormat="YYYY-MMMM-DD" [(ngModel)]="fecha_inicio" name="fecha_inici"></ion-datetime>
                         </ion-item>
                       </ion-col>
                       <ion-col col-6>
                         <ion-item>
                           <ion-label stacked>Hora:</ion-label>
-                          <ion-datetime displayFormat="H:m"></ion-datetime>
+                          <ion-datetime displayFormat="HH:mm" [(ngModel)]="hora_inicio" name="hora_inici"></ion-datetime>
                         </ion-item>
                       </ion-col>
                     </ion-row>   
       <ion-row>
-        <ion-col>
-          <button ion-button class="submit-btn" full type="submit" color="secondary" >Confirmar y Continuar</button>
+        <ion-col *ngIf="!bandera_ultimoMed">
+          <button ion-button class="submit-btn" full type="submit" color="secondary" (click)="registrar()" >Confirmar y Continuar</button>
         </ion-col>
-        <ion-col>
-          <button ion-button class="submit-btn" full type="submit" color="danger" >Descartar Medicamento</button>
+        <ion-col *ngIf="!bandera_ultimoMed">
+          <button ion-button class="submit-btn" full type="submit" color="danger" (click)="cancelar()">Descartar Medicamento</button>
         </ion-col>
+        <ion-col *ngIf="bandera_ultimoMed">
+          <button ion-button class="submit-btn" full type="submit" color="primary" (click)="confirmar_y_anadir()">Confirmar y Añadir Medicamento</button>
+        </ion-col>
+        <ion-col *ngIf="bandera_ultimoMed">
+          <button ion-button class="submit-btn" full type="submit" color="secondary" (click)="registrar()">Confirmar y Terminar</button>
+        </ion-col>
+        <ion-col *ngIf="bandera_ultimoMed">
+          <button ion-button class="submit-btn" full type="submit" color="primary" (click)="cancelar()">Descartar y Terminar</button>
+        </ion-col>
+        <ion-col *ngIf="bandera_ultimoMed">
+          <button ion-button class="submit-btn" full type="submit" color="secondary" (click)="descartar_y_anadir()">Descartar y Añadir Medicamento</button>
+        </ion-col>
+        
       </ion-row>
 
     </form>

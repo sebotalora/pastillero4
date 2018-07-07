@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import * as papa from 'papaparse';
+import { BdfirebaseProvider } from '../../providers/bdfirebase/bdfirebase';
+import { Http } from '@angular/http';
 
 /**
  * Generated class for the MedicamentoFormulaPage page.
@@ -22,12 +25,30 @@ export class MedicamentoFormulaPage {
   frecuencia_utiempo: string;
   fecha_inicio: string;
   hora_inicio: string;
+  numero: String;
+  renglon: any;
+  bandera_ultimoMed: boolean;
+  total_med: number;
+  presentacionData = [];
+  frecuenciaData = [];
 
   constructor(
-    private nav: NavController, public loadingCtrl: LoadingController, private alertCtrl: AlertController
-  ) {}
+    private nav: NavController, public loadingCtrl: LoadingController, public modalCtrl: ModalController,
+    private bd: BdfirebaseProvider,public navParams: NavParams,private http: Http
+  ) {
 
-  desglosar_info(renglon){
+    this.renglon = this.navParams.get('data');
+    this.numero = this.navParams.get('med').toString();
+    this.bandera_ultimoMed = this.navParams.get('banderaFinal');
+    this.total_med = this.navParams.get('total');
+
+    this.leerCSV_presentacion();
+    this.leerCSV_frecuencia();
+    this.desglosar_info();
+
+  }
+
+  desglosar_info(){
     //{"F":["TOMAR","CADA"],
     //"M":["LOSARTAN"],
     //"N":["1","12"],
@@ -35,29 +56,29 @@ export class MedicamentoFormulaPage {
     //"T":["HORAS"],
     //"LINEA":"[u'VEJA',u'LOSARTAN', u'POTASIO', u'GEOM', u'TAB', u'PENDIENTE', u'TOMAR', u'1', u'TABLETAS', u'CADA', u'12', u'HORAS']"}
     
-    if(renglon.M !=null){
-      var tamanoM= Object.keys(renglon.M).length;
+    if(this.renglon.M !=null){
+      var tamanoM= Object.keys(this.renglon.M).length;
       for (var i = 0; i < tamanoM; i++) {
-        this.medicamento = this.medicamento.concat(renglon.M[i], " ");
+        this.medicamento = this.medicamento.concat(this.renglon.M[i], " ");
       }
     }
 
-    if(renglon.N !=null){
-      var tamanoN= Object.keys(renglon.N).length;
+    if(this.renglon.N !=null){
+      var tamanoN= Object.keys(this.renglon.N).length;
       if (tamanoN>1){
-        if (renglon.N[0] != '1'){
-          this.frecuencia_cant= parseInt(renglon.N[0]);
-          this.cantidad_total= parseInt(renglon.N[1]);
+        if (this.renglon.N[0] != '1'){
+          this.frecuencia_cant= parseInt(this.renglon.N[0]);
+          this.cantidad_total= parseInt(this.renglon.N[1]);
         }else{
-          this.frecuencia_cant= parseInt(renglon.N[1]);
+          this.frecuencia_cant= parseInt(this.renglon.N[1]);
           this.cantidad_total= 30;
         }      
       }else if (tamanoN==1){
-        if(renglon.N[0] == '1'){
+        if(this.renglon.N[0] == '1'){
           this.frecuencia_cant= 8;
           this.cantidad_total= 30;
         }else{
-          this.frecuencia_cant= parseInt(renglon.N[0]);
+          this.frecuencia_cant= parseInt(this.renglon.N[0]);
           this.cantidad_total= 30;
         }
       }else{
@@ -66,29 +87,94 @@ export class MedicamentoFormulaPage {
       }
     }
     
-    if(renglon.P !=null){
-      this.presentacion= renglon.P[0];
+    if(this.renglon.P !=null){
+      this.presentacion= this.renglon.P[0];
     }else{
-      this.presentacion= "";
+      this.presentacion= "TABLETAS";
     }
     
-    if(renglon.T !=null){
-      this.frecuencia_utiempo= renglon.T[0];
+    if(this.renglon.T !=null){
+      this.frecuencia_utiempo= this.renglon.T[0];
     }else{
-      this.frecuencia_utiempo= "horas";
+      this.frecuencia_utiempo= "HORAS";
     }
+    console.log(this.frecuencia_utiempo);
     
-    this.fecha_inicio= "today";
-    this.hora_inicio= "8:00";
+    this.fecha_inicio= new Date().toISOString().slice(0, 10);
+    console.log(this.fecha_inicio);
+    this.hora_inicio= "08:00";
 
     
   
   }
 
-  public register() {
-    
+  leerCSV_presentacion(){
+    this.http.get('assets/diccionarios/dic_presentacion.csv')
+      .subscribe(
+      data => this.extraerDatosCSV_prese(data),
+      err => this.gestionError(err)
+      );
+   
   }
 
+  extraerDatosCSV_prese(res){
+    let csvData = res['_body'] || '';
+    let parsedData = papa.parse(csvData).data;
+ 
+    this.presentacionData = parsedData;
+  }
+
+  leerCSV_frecuencia(){
+    this.http.get('assets/diccionarios/dic_tiempo.csv')
+      .subscribe(
+      data => this.extraerDatosCSV_fre(data),
+      err => this.gestionError(err)
+      );
+
+  }
+
+  extraerDatosCSV_fre(res){
+    let csvData = res['_body'] || '';
+    let parsedData = papa.parse(csvData).data;
+ 
+    this.frecuenciaData = parsedData;
+  }
+
+  gestionError(err){
+    console.log('Error Lectura CSV: ', err);
+  }
+
+
+  registrar() {
+    console.log("ID_Med: " + this.bd.idactual());
+    this.nav.pop();
+  }
+
+  descartar_y_anadir(){
+    this.nav.pop();
+    this.medicamentoAdicional();
+  }
+
+  confirmar_y_anadir(){
+    this.registrar();
+    this.medicamentoAdicional();
+  }
+
+  medicamentoAdicional(){
+    var lista=[];
+    this.total_med=this.total_med+1;
+    let modal_verificacion = this.modalCtrl.create('MedicamentoFormulaPage', { 
+      data: lista,
+      total:this.total_med,
+      med: this.total_med,
+      banderaFinal: true
+    });
+    modal_verificacion.present();
+  }
+
+  cancelar(){
+    this.nav.pop();
+  }
 
 
 }

@@ -27,6 +27,8 @@ import { BdfirebaseProvider } from '../providers/bdfirebase/bdfirebase';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { MedicamentoFormulaPageModule } from '../pages/medicamento-formula/medicamento-formula.module';
 import { GraficasPageModule } from '../pages/graficas/graficas.module';
+import { File } from '@ionic-native/file';
+import { FormulaPageModule } from '../pages/formula/formula.module';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyAuq5Jxyy_U67qRka0j6Ab3mPGk4QmuLFo",
@@ -53,6 +55,7 @@ export const firebaseConfig = {
     LoginPageModule,
     RegistroPageModule,
     MedicamentoFormulaPageModule,
+    FormulaPageModule,
     GraficasPageModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule
@@ -75,7 +78,8 @@ export const firebaseConfig = {
     AngularFireAuth,
     AutenticacionProvider,
     BdfirebaseProvider,
-    LocalNotifications
+    LocalNotifications,
+    File
   ]
 })
 export class AppModule {}
