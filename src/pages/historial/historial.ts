@@ -6,14 +6,18 @@ import { BdfirebaseProvider } from '../../providers/bdfirebase/bdfirebase';
 import firebase from 'firebase';
 
 @Component({
-  selector: 'page-about',
-  templateUrl: 'about.html'
+  selector: 'page-historial',
+  templateUrl: 'historial.html'
 })
-export class AboutPage {
+export class HistorialPage {
 
   
-
+  cantidad_formulas: number;
+  formulas: any;
+  contador_formulas: number;
   public base64Image: string;
+  id_: string;
+  siguiente_formula="";
   
   constructor(public loadingCtrl: LoadingController, public navCtrl: NavController,  private bd: BdfirebaseProvider,
     private camera: Camera, private actionSheetCtrl: ActionSheetController, 
@@ -25,7 +29,9 @@ export class AboutPage {
       duration: 1500,
       }).present();
 
+      
       this.init_formulas(this.bd.idactual());
+      
       
     }
 
@@ -44,7 +50,7 @@ var options = {
 // Get the data of an image
 this.camera.getPicture(options).then((imagePath) => {
   console.log("imagePath:"+imagePath)
-  let modal = this.modalCtrl.create('UploadModalPage', { data: imagePath });
+  let modal = this.modalCtrl.create('UploadModalPage', { data: imagePath, siguiente: this.siguiente_formula});
   modal.present();
 }, (err) => {
   console.log('Error: ', err);
@@ -72,8 +78,11 @@ showPopup(title, text) {
 
 
 presentActionSheet() {
+  
+  this.siguiente_nombre(this.bd.idactual());
+
   let actionSheet = this.actionSheetCtrl.create({
-    title: 'Añadir Formula: Seleccione fotografía',
+    title: 'Añadir Fórmula: Seleccione método de ingreso',
     buttons: [
       {
         text: 'Cargar de la galería',
@@ -88,7 +97,7 @@ presentActionSheet() {
         }
       },
       {
-        text: 'Insertar formula manualmente',
+        text: 'Ingresar fórmula manualmente',
         handler: () => {
           this.takePicture(this.camera.PictureSourceType.CAMERA);
         }
@@ -101,9 +110,7 @@ presentActionSheet() {
   });
   actionSheet.present();
 }
-cantidad_formulas: number;
-formulas: any;
-contador_formulas: number;
+
 
 cant_formulas(cant){
   this.cantidad_formulas = cant;
@@ -151,7 +158,6 @@ init_formulas(id){
       formula_array[this.contador_formulas][3]=childSnapshot.child('medicamentos').numChildren();
       formula_array[this.contador_formulas][4]=urlimg;
 
-      //console.log(formula_array);
       this.arreglo_formulas(formula_array);
 
       this.sumar_formula();
@@ -159,18 +165,26 @@ init_formulas(id){
 
     });
 
-    //return snapshot.numChildren();
    });
+   
 }
 
 ver_formula(datos){
   console.log("datos");
   console.log(datos);
   let modal_verformula = this.modalCtrl.create('FormulaPage', { data: datos });
-  modal_verformula.onDidDismiss(()=>{
-         // this.verificar(num+1,listaM,lista);
-        });
-        modal_verformula.present();
+  modal_verformula.present();
+}
+siguiente_nombre(id,numero=this.cantidad_formulas+1){
+   
+  firebase.database().ref('/historias/'+id+'/h'+numero.toString()+'/').on('value', (snapshot) => {
+    if (snapshot.val()){
+      this.siguiente_nombre(id,numero+1);
+    }else{
+      this.siguiente_formula='h'+numero.toString();
+      console.log("Sig nombre de formula:",this.siguiente_formula);
+    }
+  });
 }
 
 }

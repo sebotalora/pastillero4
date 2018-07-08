@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController,  AlertController, LoadingController } from 'ionic-angular';
 import { AutenticacionProvider } from '../../providers/autenticacion/autenticacion';
 import { BdfirebaseProvider } from '../../providers/bdfirebase/bdfirebase';
-import { LoginPage } from '../login/login';
-import { HomePage } from '../home/home';
+
 import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the RegistroPage page.

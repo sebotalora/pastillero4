@@ -13,9 +13,11 @@ export class UploadModalPage {
   desc: string;
   formula: any;
   total_med: number;
+  siguiente: string;
 
   constructor(public loadingCtrl: LoadingController, public modalCtrl: ModalController, public navCtrl: NavController, private navParams: NavParams, private viewCtrl: ViewController, private imagesProvider: ImagesProvider, private alertCtrl: AlertController) {
     this.imageData = this.navParams.get('data');
+    this.siguiente = this.navParams.get('siguiente');
   }
 
   verificarMedicamentos(lista){
@@ -38,7 +40,7 @@ export class UploadModalPage {
       }
       var i=listaM[0];
     listaM.shift();
-    let modal_verificacion = this.modalCtrl.create('MedicamentoFormulaPage', { data: lista[i], total:this.total_med, med: num, banderaFinal: ultimoMed  });
+    let modal_verificacion = this.modalCtrl.create('MedicamentoFormulaPage', { data: lista[i], total:this.total_med, med: num, banderaFinal: ultimoMed, siguiente:this.siguiente  });
         modal_verificacion.onDidDismiss(()=>{
           this.verificar(num+1,listaM,lista);
         });
@@ -82,7 +84,7 @@ export class UploadModalPage {
       alert.present();
       
 
-      //let nuevaf  = this.modalCtrl.create(FormulaNuevaPage, {formula: JSON.parse(res.response)});
+      //let nuevaf  = this.modalCtrl.create(FormulaActualPage, {formula: JSON.parse(res.response)});
      // nuevaf.present();
       
     }, err => {

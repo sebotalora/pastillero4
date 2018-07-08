@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Formulas Médicas
+      Fórmulas Médicas
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -10,7 +10,7 @@
   <ion-list *ngFor="let form of formulas">
   <ion-card (click)="ver_formula(form)">
           <img id="image" src="{{form[4]}}"/>
-          <div class="card-title">Formula {{form[0]}}</div>
+          <div class="card-title">Fórmula {{form[0]}}</div>
           <div class="card-subtitle">{{form[2]}}</div>
   </ion-card>
       

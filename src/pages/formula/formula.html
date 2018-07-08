@@ -7,12 +7,38 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>formula</ion-title>
+    <ion-title>Formula {{datos[0]}}</ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
 <ion-content padding>
+  <ion-card>
 
+    <ion-card-header>
+      Fecha de creación:  {{datos[2]}}
+    </ion-card-header>
+
+  
+  </ion-card>
+
+  <ion-card *ngFor="let med of medicamentos"> 
+
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="{{med[8]}}">
+      </ion-avatar>
+      <h2>{{med[1]}}</h2>
+      <p>Tomar cada {{med[4]}} {{med[5]}}</p>
+    </ion-item>
+  
+      
+    <ion-card-content>
+      <p>Fecha y hora de Inicio: {{med[6]}} {{med[7]}} </p>
+      <p>Duración: {{med[2]}} {{med[3]}} </p>
+    </ion-card-content>
+    
+  </ion-card>
+
+  <button ion-button block color="danger" (click)="cerrar()">Cerrar</button>
+  <button ion-button block color="secondary" (click)="descargar()">Descargar Formula - JSON</button>
+  
 </ion-content>

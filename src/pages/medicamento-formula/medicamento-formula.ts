@@ -31,6 +31,7 @@ export class MedicamentoFormulaPage {
   total_med: number;
   presentacionData = [];
   frecuenciaData = [];
+  nombre_formula: string;
 
   constructor(
     private nav: NavController, public loadingCtrl: LoadingController, public modalCtrl: ModalController,
@@ -41,6 +42,7 @@ export class MedicamentoFormulaPage {
     this.numero = this.navParams.get('med').toString();
     this.bandera_ultimoMed = this.navParams.get('banderaFinal');
     this.total_med = this.navParams.get('total');
+    this.nombre_formula= this.navParams.get('siguiente');
 
     this.leerCSV_presentacion();
     this.leerCSV_frecuencia();
@@ -167,7 +169,8 @@ export class MedicamentoFormulaPage {
       data: lista,
       total:this.total_med,
       med: this.total_med,
-      banderaFinal: true
+      banderaFinal: true,
+      siguiente: this.nombre_formula
     });
     modal_verificacion.present();
   }

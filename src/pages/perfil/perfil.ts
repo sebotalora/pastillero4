@@ -7,10 +7,10 @@ import { MedicamentoFormulaPage } from '../medicamento-formula/medicamento-formu
 import firebase from 'firebase';
 
 @Component({
-  selector: 'page-contact',
-  templateUrl: 'contact.html'
+  selector: 'page-perfil',
+  templateUrl: 'perfil.html'
 })
-export class ContactPage {
+export class PerfilPage {
 
   perfil_: any = []
   

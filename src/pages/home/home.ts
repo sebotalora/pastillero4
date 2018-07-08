@@ -13,7 +13,7 @@ export class HomePage {
   dias= [['Domingo','Fecha','assets/imgs/myjobs/myjobs1.jpg'],
   ['Lunes','Fecha','assets/imgs/myjobs/myjobs2.jpg'],
   ['Martes','Fecha','assets/imgs/myjobs/myjobs3.jpg'],
-  ['Miercoles','Fecha','assets/imgs/myjobs/myjobs4.jpg'],
+  ['Miércoles','Fecha','assets/imgs/myjobs/myjobs4.jpg'],
   ['Jueves','Fecha','assets/imgs/myjobs/myjobs5.jpg'],
   ['Viernes','Fecha','assets/imgs/myjobs/myjobs6.jpg'],
   ['Sábado','Fecha','assets/imgs/myjobs/myjobs7.jpg']

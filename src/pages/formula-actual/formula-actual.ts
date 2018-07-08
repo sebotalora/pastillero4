@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the FormulaNuevaPage page.
+ * Generated class for the FormulaActualPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,17 +10,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-formula-nueva',
-  templateUrl: 'formula-nueva.html',
+  selector: 'page-formula-actual',
+  templateUrl: 'formula-actual.html',
 })
-export class FormulaNuevaPage {
-  meds: any;
+export class FormulaActualPage {
+  
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.meds = this.navParams.get('formula');
+    
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad FormulaNuevaPage');
+    console.log('ionViewDidLoad FormulaActualPage');
   }
 
 }

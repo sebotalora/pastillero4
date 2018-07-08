@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController  } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { RegistroPage } from '../registro/registro';
