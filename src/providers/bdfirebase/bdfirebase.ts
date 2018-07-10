@@ -13,10 +13,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 @Injectable()
 export class BdfirebaseProvider {
 
-  
-
-  
-  constructor(public http: HttpClient,  public afd: AngularFireDatabase) {
+ constructor(public http: HttpClient,  public afd: AngularFireDatabase) {
     console.log('Hello BdfirebaseProvider Provider');
   }
 
@@ -58,45 +55,42 @@ export class BdfirebaseProvider {
        
     
   }
-
-  cantFormulas(id){
-    
-    firebase.database().ref('/historias/'+id+'/').on('value', (snapshot) => {
-      console.log("Cant Formulas "+id+": "+snapshot.numChildren());
-      console.log("Usuario: "+snapshot.key);
-
-      snapshot.forEach(childSnapshot => {
-        var keyFormula = childSnapshot.key;
-        console.log("Formula: "+keyFormula);
-        var fechaFormula = childSnapshot.child('fecha').val();
-        console.log("Fecha Formula: "+fechaFormula);
-        console.log("Cant Medicamentos: "+childSnapshot.child('medicamentos').numChildren());
-
-        childSnapshot.child('medicamentos').forEach(meds => {
-          var keyMed = meds.key;
-          console.log("Key_child_m: "+keyMed);
-          var fechainicio = meds.child('fecha_inicio').val();
-          console.log("Cantmed_child: "+fechainicio);
-                    
-          return false;
-        });
-
-        return false;
-      });
-
-      //return snapshot.numChildren();
-     });
- }
-
-
-
-  addFormula(){
-
-  }
-
-  addMedicamento(){
-
-  }
-
   
+  addMedicamento(id, formula, idmed, nombre, canttotal, presentacion, frecuencia, utiempo, fecha, hora){
+    try{
+      firebase.database().ref(`/historias/`+id+"/"+formula+"/medicamentos/"+idmed).set({
+        cantidad:canttotal,
+        fecha_inicio:fecha,
+        frecuencia:utiempo,
+        hora:hora,
+        tiempo:frecuencia,
+        presentacion:presentacion,
+        nombre: nombre
+      });
+    }catch(e){
+      console.log("Error med");
+    }
+    
+  }
+
+    addfecha(id, formula,fecha){
+      firebase.database().ref('/historias/'+id+'/'+formula+'/').on('value', (snapshot) => {
+        if (snapshot.val()){
+          this.addfecha2(id, formula,fecha);
+        }else{
+          console.log('formula no fue creada');
+        }
+      });
+           
+    }
+
+    addfecha2(id, formula,fecha){
+      try{
+        firebase.database().ref(`/historias/`+id+"/"+formula+'/datos').set({fecha:fecha}); 
+      }catch(e){
+        console.log("Error fecha");
+      }
+    }
+
+
 }

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController, App } from 'ionic-angular';
 import * as papa from 'papaparse';
 import { BdfirebaseProvider } from '../../providers/bdfirebase/bdfirebase';
 import { Http } from '@angular/http';
-
+import {  OnInit } from '@angular/core';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the MedicamentoFormulaPage page.
  *
@@ -16,7 +18,7 @@ import { Http } from '@angular/http';
   selector: 'page-medicamento-formula',
   templateUrl: 'medicamento-formula.html',
 })
-export class MedicamentoFormulaPage {
+export class MedicamentoFormulaPage implements OnInit{
 
   medicamento = "";
   cantidad_total: number;
@@ -32,10 +34,11 @@ export class MedicamentoFormulaPage {
   presentacionData = [];
   frecuenciaData = [];
   nombre_formula: string;
+  group: FormGroup;
 
   constructor(
     private nav: NavController, public loadingCtrl: LoadingController, public modalCtrl: ModalController,
-    private bd: BdfirebaseProvider,public navParams: NavParams,private http: Http
+    private bd: BdfirebaseProvider,public navParams: NavParams,private http: Http,public appCtrl: App
   ) {
 
     this.renglon = this.navParams.get('data');
@@ -47,8 +50,43 @@ export class MedicamentoFormulaPage {
     this.leerCSV_presentacion();
     this.leerCSV_frecuencia();
     this.desglosar_info();
+    
+    
 
   }
+
+  ngOnInit(){
+    this.group = new FormGroup({
+      medicament : new FormControl('',[Validators.required]),
+      cantidad_tota : new FormControl('',[Validators.required]),
+      presentacio : new FormControl('',[Validators.required]),
+      frecuencia_can : new FormControl('',[Validators.required]),
+      frecuencia_utiemp : new FormControl('',[Validators.required]),
+      fecha_inici : new FormControl('',[Validators.required]),
+      hora_inici : new FormControl('',[Validators.required])
+    });
+  }
+  getMedicament() {
+    return this.group.get('medicament');
+   }
+   getCantidad_tota() {
+    return this.group.get('cantidad_tota');
+   }
+   getPresentacio() {
+    return this.group.get('presentacio');
+   }
+   getFrecuencia_can() {
+    return this.group.get('frecuencia_can');
+   }
+   getFrecuencia_utiemp() {
+    return this.group.get('frecuencia_utiemp');
+   }
+   getFecha_inici() {
+    return this.group.get('fecha_inici');
+   }
+   getHora_inici() {
+    return this.group.get('hora_inici');
+   }
 
   desglosar_info(){
     //{"F":["TOMAR","CADA"],
@@ -148,8 +186,33 @@ export class MedicamentoFormulaPage {
 
 
   registrar() {
-    console.log("ID_Med: " + this.bd.idactual());
+    if (this.group.valid) {
+
+      this.bd.addMedicamento(
+        this.bd.idactual(),
+        this.nombre_formula,
+        "m".concat(this.numero.toString()),
+        this.medicamento,
+        this.cantidad_total,
+        this.presentacion,
+        this.frecuencia_cant,
+        this.frecuencia_utiempo,
+        this.fecha_inicio,
+        this.hora_inicio
+      );
+
+      console.log("NOmbre a guardar: ",this.nombre_formula);
+    this.bd.addfecha2(
+      this.bd.idactual(),
+      this.nombre_formula,
+      this.fecha_inicio= new Date().toISOString().slice(0, 10)
+    );
+      
     this.nav.pop();
+    }else{
+      console.log("NO VALIDO" );
+    }
+    
   }
 
   descartar_y_anadir(){
@@ -158,8 +221,12 @@ export class MedicamentoFormulaPage {
   }
 
   confirmar_y_anadir(){
+    if (this.group.valid) {
     this.registrar();
     this.medicamentoAdicional();
+    }else{
+      console.log("NO VALIDO" );
+    }
   }
 
   medicamentoAdicional(){
@@ -177,6 +244,21 @@ export class MedicamentoFormulaPage {
 
   cancelar(){
     this.nav.pop();
+  }
+
+  confirmar_terminar(){
+    this.registrar();
+    this.appCtrl.getRootNav().push(TabsPage);
+  }
+
+  descartar_terminar(){
+    this.bd.addfecha(
+      this.bd.idactual(),
+      this.nombre_formula,
+      this.fecha_inicio= new Date().toISOString().slice(0, 10)
+    );
+    this.nav.pop();
+    this.appCtrl.getRootNav().push(TabsPage);
   }
 
 

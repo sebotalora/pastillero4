@@ -46,9 +46,9 @@ export class FormulaPage {
           var hora = meds.child('hora').val();
           var nombre = meds.child('nombre').val();
           var tiempo = meds.child('tiempo').val();
-          var unidadtiempo = meds.child('unidadtiempo').val();
+          var presentacion = meds.child('presentacion').val();
           
-          this.agregaMedicamento(keyMed,nombre,cantidad,unidadtiempo,tiempo,frecuencia,fecha_inicio,hora);
+          this.agregaMedicamento(keyMed,nombre,cantidad,presentacion,tiempo,frecuencia,fecha_inicio,hora);
 
           return false;
         });
@@ -59,7 +59,7 @@ export class FormulaPage {
   setFecha(valor){
     this.fechaformula=valor;
   }
-  agregaMedicamento(key,med,cant,unidadtiempo,tiempo,frecu,fecha,hora){
+  agregaMedicamento(key,med,cant,presentacion,tiempo,frecu,fecha,hora){
     this.contadorMed=this.contadorMed+1;
     var urlimg="";
       if(this.contadorMed % 2 == 0) {
@@ -68,8 +68,8 @@ export class FormulaPage {
       else {
         urlimg="assets/imgs/pildoras-02.png";
       }
-    // 0-key, 1-med, 2-cant, 3-unidadtiempo, 4-tiempo, 5-frecu, 6-fecha, 7-hora, 8-urlimg
-    this.medicamentos.push([key,med,cant,unidadtiempo,tiempo,frecu,fecha,hora,urlimg]);
+    // 0-key, 1-med, 2-cant, 3-unidadtiempo, 4-presentacion, 5-frecu, 6-fecha, 7-hora, 8-urlimg
+    this.medicamentos.push([key,med,cant,presentacion,tiempo,frecu,fecha,hora,urlimg]);
 
   }
   

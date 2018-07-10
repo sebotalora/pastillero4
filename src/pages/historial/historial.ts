@@ -13,7 +13,7 @@ export class HistorialPage {
 
   
   cantidad_formulas: number;
-  formulas: any;
+  formulas=[];
   contador_formulas: number;
   public base64Image: string;
   id_: string;
@@ -52,6 +52,7 @@ this.camera.getPicture(options).then((imagePath) => {
   console.log("imagePath:"+imagePath)
   let modal = this.modalCtrl.create('UploadModalPage', { data: imagePath, siguiente: this.siguiente_formula});
   modal.present();
+  
 }, (err) => {
   console.log('Error: ', err);
 });
@@ -120,13 +121,14 @@ sumar_formula(){
 }
 
 arreglo_formulas(arreglo){
-  this.formulas=arreglo;
+  this.formulas.push(arreglo);
   console.log("Ajá");
   console.log(this.formulas);
 }
 
 init_formulas(id){
   this.contador_formulas=0;
+  this.formulas=[];
   firebase.database().ref('/historias/'+id+'/').on('value', (snapshot) => {
     console.log("Cant Formulas "+id+": "+snapshot.numChildren());
     this.cant_formulas(snapshot.numChildren());  /////////////////
@@ -135,14 +137,13 @@ init_formulas(id){
     snapshot.forEach(childSnapshot => {
       
       var keyFormula = childSnapshot.key;
-      var formula_array= new Array(new Array ());
+      var formula_array= new Array();
 
       console.log("Formula: "+keyFormula);
       
-      var fechaFormula = childSnapshot.child('fecha').val();
+      var fechaFormula = childSnapshot.child('datos').child('fecha').val();
       
       console.log("Fecha Formula: "+fechaFormula);
-      console.log("Cant Medicamentos: "+childSnapshot.child('medicamentos').numChildren());
       
       var urlimg="";
       if(this.contador_formulas+1 % 2 == 0) {
@@ -152,12 +153,16 @@ init_formulas(id){
         urlimg="assets/imgs/myjobs/receta2.jpg";
       }
 
-      formula_array[this.contador_formulas][0]=this.contador_formulas+1;
-      formula_array[this.contador_formulas][1]=keyFormula;
-      formula_array[this.contador_formulas][2]=fechaFormula;
-      formula_array[this.contador_formulas][3]=childSnapshot.child('medicamentos').numChildren();
-      formula_array[this.contador_formulas][4]=urlimg;
+      console.log("Contador: ",this.contador_formulas);
+      console.log("# meds: ",childSnapshot.child('medicamentos').numChildren());
 
+      formula_array[0]=this.contador_formulas+1;
+      formula_array[1]=keyFormula;
+      formula_array[2]=fechaFormula;
+      formula_array[3]=childSnapshot.child('medicamentos').numChildren();
+      formula_array[4]=urlimg;
+
+      console.log("Agregar formula");
       this.arreglo_formulas(formula_array);
 
       this.sumar_formula();

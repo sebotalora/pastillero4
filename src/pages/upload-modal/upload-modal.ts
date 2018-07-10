@@ -45,6 +45,7 @@ export class UploadModalPage {
           this.verificar(num+1,listaM,lista);
         });
     modal_verificacion.present();
+    
     }else{
       //cerrar upload ts
       //mostrar receta etc
@@ -76,6 +77,7 @@ export class UploadModalPage {
             role: 'Ok',
             handler: () => {
               this.verificarMedicamentos(datos);
+              this.viewCtrl.dismiss();
             }
           }
           ]
