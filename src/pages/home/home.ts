@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -10,15 +10,15 @@ export class HomePage {
   dias_ord: any = []
 
   images: any = [];
-  dias= [['Domingo','Fecha','assets/imgs/myjobs/myjobs1.jpg'],
-  ['Lunes','Fecha','assets/imgs/myjobs/myjobs2.jpg'],
-  ['Martes','Fecha','assets/imgs/myjobs/myjobs3.jpg'],
-  ['Miércoles','Fecha','assets/imgs/myjobs/myjobs4.jpg'],
-  ['Jueves','Fecha','assets/imgs/myjobs/myjobs5.jpg'],
-  ['Viernes','Fecha','assets/imgs/myjobs/myjobs6.jpg'],
-  ['Sábado','Fecha','assets/imgs/myjobs/myjobs7.jpg']
+  dias= [['Domingo','Fecha','assets/imgs/dias_semana-02.png'],
+  ['Lunes','Fecha','assets/imgs/dias_semana-03.png'],
+  ['Martes','Fecha','assets/imgs/dias_semana-04.png'],
+  ['Miércoles','Fecha','assets/imgs/dias_semana-05.png'],
+  ['Jueves','Fecha','assets/imgs/dias_semana-06.png'],
+  ['Viernes','Fecha','assets/imgs/dias_semana-07.png'],
+  ['Sábado','Fecha','assets/imgs/dias_semana-08.png']
 ];
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController,public modalCtrl: ModalController) {
     let indice=this.hoy.getDay();
     this.dias_ord=this.dias.slice(indice,7).concat(this.dias.slice(0,indice));
     var i,dd,mm,y;
@@ -28,13 +28,32 @@ export class HomePage {
     y = fecha.getFullYear();
     this.dias_ord[0][0]=this.dias_ord[0][0]+" - Hoy!"
     this.dias_ord[0][1]=dd + '/'+ mm + '/'+ y;
+    this.dias_ord[0][2]='assets/imgs/dias_semana-01.png';
     for (i = 1; i < 7; i++) { 
       fecha.setDate(fecha.getDate() + 1);
       dd = fecha.getDate();
       mm = fecha.getMonth() + 1;
       y = fecha.getFullYear();
       this.dias_ord[i][1]=dd + '/'+ mm + '/'+ y;
+      this.dias_ord[i][3]=dd;
+      this.dias_ord[i][4]=mm;
+      this.dias_ord[i][5]=y;
     }
   }
 
+  verdia(dia){
+    console.log("a: ",dia);
+    var fecha=dia[1].split("/");
+    var busqueda=fecha[2]+"-"+this.dosdigitos(fecha[1])+"-"+this.dosdigitos(fecha[0]);
+    console.log("BB: ",busqueda);
+    let modal_dia = this.modalCtrl.create('FormulaActualPage', { 
+      busqueda: busqueda
+    });
+    modal_dia.present();
+  }
+
+  dosdigitos(number){
+    return  ("0" + number).slice(-2);
+    
+  }
 }

@@ -13,6 +13,7 @@ import firebase from 'firebase';
 export class PerfilPage {
 
   perfil_: any = []
+  foto: string;
   
   constructor(public navCtrl: NavController, public auth : AutenticacionProvider, private app: App,
     private bd: BdfirebaseProvider, private alertCtrl: AlertController) {
@@ -45,18 +46,24 @@ export class PerfilPage {
          snapshot.child('telefono').val(),
          snapshot.child('nacimiento').val()
       ];
+      var sexo="";
+      if(datosperfil[4]=="F"){
+        sexo='assets/imgs/perfil-mujer.png';
+      }else{
+        sexo='assets/imgs/perfil-hombre.png'
+      }
       
-      this.llenarPerfil(datosperfil);
+      this.llenarPerfil(datosperfil,sexo);
       
        });
     
   }
 
-  llenarPerfil(datos){
+  llenarPerfil(datos,sexo){
     this.perfil_=datos;
     // 1-apellido 2-correo 3-edad 4-nombre 5-sexo 6-telefono 7-nacimiento
     console.log("Perfil_out: "+this.perfil_);
-
+    this.foto=sexo;
   }
 
   showPopup(title, text) {

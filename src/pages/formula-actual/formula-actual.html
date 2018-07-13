@@ -7,12 +7,35 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>formula-actual</ion-title>
+    <ion-title>Medicamentos: {{busqueda}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+    <ion-card *ngIf="vacio">
+        <ion-card-header>
+          No hay medicamentos pendientes hoy!
+        </ion-card-header>
+        <ion-card-content>
+          Revisa los próximos días.
+        </ion-card-content>
+      </ion-card>
+  <ion-card *ngFor="let med of medicamentos"> 
+
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="{{med[2]}}">
+      </ion-avatar>
+      <h2>{{med[1]}}</h2>
+      <p>Tomar a las {{med[0]}}</p>
+    </ion-item>
   
+      
+    
+    
+  </ion-card>
+
+  <button ion-button block color="danger" (click)="cerrar()">Cerrar</button>
 </ion-content>

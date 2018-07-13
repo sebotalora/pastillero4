@@ -74,7 +74,7 @@ export class BdfirebaseProvider {
   }
 
     addfecha(id, formula,fecha){
-      firebase.database().ref('/historias/'+id+'/'+formula+'/').on('value', (snapshot) => {
+      firebase.database().ref('/historias/'+id+'/'+formula+'/').once('value', (snapshot) => {
         if (snapshot.val()){
           this.addfecha2(id, formula,fecha);
         }else{

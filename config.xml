@@ -3,7 +3,7 @@
     <name>Pastillero</name>
     <description>Gestor de notificaciones para recetas médicas. Creado por el Grupo Gesdatos de la Universidad Distrital. Bogotá, Colombia</description>
     <author email="jsotaloral@correo.udistrital.edu.co" href="https://www.udistrital.edu.co/">Otalora / Bravo - Gesdatos</author>
-    <content original-src="index.html" src="http://192.168.1.151:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -89,5 +89,6 @@
     <allow-navigation href="http://192.168.0.5:8100" />
     <allow-navigation href="http://192.168.1.151:8100" />
     <allow-navigation href="http://192.168.1.152:8100" />
+    <allow-navigation href="http://192.168.1.85:8100" />
     <engine name="android" spec="^6.3.0" />
 </widget>

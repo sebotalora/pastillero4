@@ -22,7 +22,7 @@ export class HistorialPage {
   constructor(public loadingCtrl: LoadingController, public navCtrl: NavController,  private bd: BdfirebaseProvider,
     private camera: Camera, private actionSheetCtrl: ActionSheetController, 
     private modalCtrl: ModalController, private alertCtrl: AlertController) {
-
+      this.contador_formulas=0;
       let self = this;
       self.loadingCtrl.create({
       content: '<ion-spinner name="crescent"></ion-spinner> Espera un momento...',
@@ -122,17 +122,17 @@ sumar_formula(){
 
 arreglo_formulas(arreglo){
   this.formulas.push(arreglo);
-  console.log("Ajá");
-  console.log(this.formulas);
+ //console.log("Ajá");
+ // console.log(this.formulas);
 }
 
 init_formulas(id){
   this.contador_formulas=0;
   this.formulas=[];
   firebase.database().ref('/historias/'+id+'/').on('value', (snapshot) => {
-    console.log("Cant Formulas "+id+": "+snapshot.numChildren());
+    console.log("***Cant Formulas "+id+": "+snapshot.numChildren());
     this.cant_formulas(snapshot.numChildren());  /////////////////
-    console.log("Usuario: "+snapshot.key);
+   // console.log("Usuario: "+snapshot.key);
 
     snapshot.forEach(childSnapshot => {
       
@@ -143,7 +143,7 @@ init_formulas(id){
       
       var fechaFormula = childSnapshot.child('datos').child('fecha').val();
       
-      console.log("Fecha Formula: "+fechaFormula);
+      //console.log("Fecha Formula: "+fechaFormula);
       
       var urlimg="";
       if(this.contador_formulas+1 % 2 == 0) {
@@ -162,7 +162,7 @@ init_formulas(id){
       formula_array[3]=childSnapshot.child('medicamentos').numChildren();
       formula_array[4]=urlimg;
 
-      console.log("Agregar formula");
+    //  console.log("Agregar formula");
       this.arreglo_formulas(formula_array);
 
       this.sumar_formula();
@@ -182,7 +182,7 @@ ver_formula(datos){
 }
 siguiente_nombre(id,numero=this.cantidad_formulas+1){
    
-  firebase.database().ref('/historias/'+id+'/h'+numero.toString()+'/').on('value', (snapshot) => {
+  firebase.database().ref('/historias/'+id+'/h'+numero.toString()+'/').once('value', (snapshot) => {
     if (snapshot.val()){
       this.siguiente_nombre(id,numero+1);
     }else{
