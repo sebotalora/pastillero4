@@ -26,6 +26,8 @@ export class PerfilPage {
 
   cerrarSesion(){
     this.auth.logout();
+    localStorage.removeItem("Correo_Pastillero");
+   localStorage.removeItem("Clave_Pastillero");
     this.app.getRootNav().setRoot(LoginPage);
   }
 

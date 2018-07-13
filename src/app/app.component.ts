@@ -19,7 +19,7 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       localStorage.removeItem('firebase:previous_websocket_failure');
-    
+      
       statusBar.styleDefault();
       splashScreen.hide();
 

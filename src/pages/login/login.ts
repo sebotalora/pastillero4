@@ -27,7 +27,7 @@ export class LoginPage {
     public loadingCtrl: LoadingController,
     public auth : AutenticacionProvider,
     public alertCtrl : AlertController) {
-
+      this.check();
     this.element.nativeElement
   }
 
@@ -35,7 +35,17 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
 
-
+  check(){
+    console.log("Correo: ",localStorage.getItem("Correo_Pastillero")!==null);
+    console.log("Contraseña: ",localStorage.getItem("Clave_Pastillero")!==null);
+    if(localStorage.getItem("Correo_Pastillero")!==null && localStorage.getItem("Clave_Pastillero")!==null){
+      this.user.email=localStorage.getItem("Correo_Pastillero");
+      this.user.password=localStorage.getItem("Clave_Pastillero");
+      this.click_login();
+    }else{
+      console.log("false local storage");
+    }
+  }
   click_login(){
 
     this.auth.loginUser(this.user.email,this.user.password ).then((user) => {
@@ -47,7 +57,8 @@ export class LoginPage {
       dismissOnPageChange: true
     }).present();
    self.navCtrl.push(TabsPage);
-
+   localStorage.setItem("Correo_Pastillero", this.user.email);
+   localStorage.setItem("Clave_Pastillero", this.user.password);
     }
   )
    .catch(err=>{

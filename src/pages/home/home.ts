@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @Component({
   selector: 'page-home',
@@ -18,7 +19,7 @@ export class HomePage {
   ['Viernes','Fecha','assets/imgs/dias_semana-07.png'],
   ['Sábado','Fecha','assets/imgs/dias_semana-08.png']
 ];
-  constructor(public navCtrl: NavController,public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController,public modalCtrl: ModalController, private localNotifications: LocalNotifications) {
     let indice=this.hoy.getDay();
     this.dias_ord=this.dias.slice(indice,7).concat(this.dias.slice(0,indice));
     var i,dd,mm,y;
@@ -55,5 +56,21 @@ export class HomePage {
   dosdigitos(number){
     return  ("0" + number).slice(-2);
     
+  }
+
+  notificacion(){
+    //"assets/sonidos/open-ended.mp3"
+  
+    this.localNotifications.schedule({
+      id: 1,
+      title: 'Hora de tomar tu medicamento:',
+      text: 'LOSARTAN - 1 tableta',
+      trigger: {at: new Date(new Date().getTime() + 10000)},
+      icon: 'file://assets/imgs/pildoras-01.png',
+      sound: 'file://assets/sonidos/open-ended.mp3'
+   }); 
+
+   
+   
   }
 }
