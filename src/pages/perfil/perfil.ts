@@ -5,6 +5,7 @@ import { LoginPage } from '../login/login';
 import { BdfirebaseProvider } from '../../providers/bdfirebase/bdfirebase';
 import { MedicamentoFormulaPage } from '../medicamento-formula/medicamento-formula';
 import firebase from 'firebase';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @Component({
   selector: 'page-perfil',
@@ -16,7 +17,8 @@ export class PerfilPage {
   foto: string;
   
   constructor(public navCtrl: NavController, public auth : AutenticacionProvider, private app: App,
-    private bd: BdfirebaseProvider, private alertCtrl: AlertController) {
+    private bd: BdfirebaseProvider, private alertCtrl: AlertController,
+    private localNotifications: LocalNotifications) {
       this.inicializar();
   }
   tempo(){
@@ -26,8 +28,10 @@ export class PerfilPage {
 
   cerrarSesion(){
     this.auth.logout();
+    this.localNotifications.cancelAll();
     localStorage.removeItem("Correo_Pastillero");
    localStorage.removeItem("Clave_Pastillero");
+
     this.app.getRootNav().setRoot(LoginPage);
   }
 

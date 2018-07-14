@@ -7,6 +7,7 @@ import {  OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { TabsPage } from '../tabs/tabs'; 
 import firebase from 'firebase';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 /**
  * Generated class for the MedicamentoFormulaPage page.
  *
@@ -43,7 +44,8 @@ export class MedicamentoFormulaPage implements OnInit{
 
   constructor(
     private nav: NavController, public loadingCtrl: LoadingController, public modalCtrl: ModalController,
-    private bd: BdfirebaseProvider,public navParams: NavParams,private http: Http,public appCtrl: App
+    private bd: BdfirebaseProvider,public navParams: NavParams,private http: Http,public appCtrl: App,
+    private localNotifications: LocalNotifications
   ) {
 
     this.renglon = this.navParams.get('data');
@@ -269,6 +271,7 @@ export class MedicamentoFormulaPage implements OnInit{
         this.fecha_inicio,
         this.hora_inicio
       );
+      this.notificacion(this.fecha(this.fecha_inicio,this.hora_inicio), this.texto());
 
     var id_actual=this.bd.idactual();
 
@@ -313,7 +316,8 @@ export class MedicamentoFormulaPage implements OnInit{
     firebase.database().ref('/cronograma/'+id+'/'+fecha+'/'+index).set({
       fecha:fecha,
       hora: hora,
-      medicamento: med
+      medicamento: med,
+      presentacion: this.presentacion
     }); 
         
    
@@ -387,5 +391,48 @@ export class MedicamentoFormulaPage implements OnInit{
     this.appCtrl.getRootNav().push(TabsPage);
   }
 
+  notificacion(fecha, texto){
+    //"assets/sonidos/open-ended.mp3"
+  
+    this.localNotifications.schedule({
+      id: 1,
+      title: 'Hora de tomar tu medicamento:',
+      text: texto,
+      trigger: {at: fecha},
+      icon: 'file://assets/imgs/pildoras-01.png',
+      sound: 'file://assets/sonidos/open-ended.mp3',
+      vibrate: true,
+      wakeup: true,
+      color:"2dd30c"
+   }); 
+
+  }
+
+  texto(){
+    var presentacion="", textof="";
+    if(this.presentacion.toLowerCase().slice(-1)=="s"){
+      presentacion=this.presentacion.slice(0,-1);
+    }else{
+      presentacion=this.presentacion;
+    }
+    textof=this.medicamento+" - 1 "+presentacion;
+    return textof;
+  }
+
+  fecha(fecha,hora){
+    var parte_fecha =fecha.split('-');
+    var parte_hora =hora.split(':');
+    var fecha_y_hora = new Date(parseInt(
+      parte_fecha[0]), 
+      parseInt(parte_fecha[1]) - 1, 
+      parseInt(parte_fecha[2]),
+      parseInt(parte_hora[0]),
+      parseInt(parte_hora[1]),
+      0,
+      0
+    );
+    
+    return fecha_y_hora;
+  }
 
 }

@@ -3,7 +3,9 @@ import { NavController, NavParams, LoadingController, AlertController  } from 'i
 import { TabsPage } from '../tabs/tabs';
 import { RegistroPage } from '../registro/registro';
 import { AutenticacionProvider } from '../../providers/autenticacion/autenticacion';
-
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { BdfirebaseProvider } from '../../providers/bdfirebase/bdfirebase';
+import firebase from 'firebase';
 /**
  * Generated class for the LoginPage page.
  *
@@ -26,7 +28,9 @@ export class LoginPage {
     public navParams: NavParams,  
     public loadingCtrl: LoadingController,
     public auth : AutenticacionProvider,
-    public alertCtrl : AlertController) {
+    public alertCtrl : AlertController,
+    private localNotifications: LocalNotifications,
+    private bd: BdfirebaseProvider) {
       this.check();
     this.element.nativeElement
   }
@@ -57,6 +61,7 @@ export class LoginPage {
       dismissOnPageChange: true
     }).present();
    self.navCtrl.push(TabsPage);
+   this.actualizarCronograma(this.bd.idactual());
    localStorage.setItem("Correo_Pastillero", this.user.email);
    localStorage.setItem("Clave_Pastillero", this.user.password);
     }
@@ -96,6 +101,76 @@ export class LoginPage {
     
  }
 
+ actualizarCronograma(id){
+  this.localNotifications.cancelAll();
+  firebase.database().ref('/cronograma/'+id+'/').on('value', (snapshot) => {
+    
 
+    snapshot.forEach(dia => {
+
+      dia.forEach(meds => {
+        var keyMed = meds.key;
+
+        var fecha = meds.child('fecha').val();
+        var hora = meds.child('hora').val();
+        var medicamento = meds.child('medicamento').val();
+        var presentacion = meds.child('presentacion').val();
+        console.log(fecha,hora);
+        this.notificacion(this.fecha(fecha,hora),this.texto(presentacion,medicamento));
+
+        return false;
+      });
+        
+        
+        return false;
+      });
+
+   });
+ }
+
+ notificacion(fecha, texto){
+  //"assets/sonidos/open-ended.mp3"
+
+  this.localNotifications.schedule({
+    id: 1,
+    title: 'Hora de tomar tu medicamento:',
+    text: texto,
+    trigger: {at: fecha},
+    icon: 'file://assets/imgs/pildoras-01.png',
+    sound: 'file://assets/sonidos/open-ended.mp3',
+    vibrate: true,
+    wakeup: true,
+    color:"2dd30c"
+ }); 
+
+}
+
+texto(present,medicamento){
+  var textof="";
+  if(present.toLowerCase().slice(-1)=="s"){
+    
+    textof=medicamento+" - 1 "+present.slice(0,-1);
+  }else{
+    textof=medicamento+" - 1 "+present;
+  }
+ 
+  return textof;
+}
+
+fecha(fecha,hora){
+  var parte_fecha =fecha.split('-');
+  var parte_hora =hora.split(':');
+  var fecha_y_hora = new Date(parseInt(
+    parte_fecha[0]), 
+    parseInt(parte_fecha[1]) - 1, 
+    parseInt(parte_fecha[2]),
+    parseInt(parte_hora[0]),
+    parseInt(parte_hora[1]),
+    0,
+    0
+  );
+  
+  return fecha_y_hora;
+}
 
 }

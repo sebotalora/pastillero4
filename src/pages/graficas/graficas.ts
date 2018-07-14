@@ -18,7 +18,7 @@ export class GraficasPage {
 
 
  
-  @ViewChild('lineCanvas') lineCanvas;
+    @ViewChild('lineCanvas') lineCanvas;
 
   barChart: any;
   doughnutChart: any;
