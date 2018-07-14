@@ -59,8 +59,11 @@ this.camera.getPicture(options).then((imagePath) => {
 }
     
 grafica(){
-  this.navCtrl.push(GraficasPage);
-  //this.showPopup('Gráficas', 'Mostrar una grafica');
+ // this.navCtrl.push(GraficasPage);
+ let modal_dia = this.modalCtrl.create('GraficasPage', { 
+  cant: 2
+});
+modal_dia.present();
 }
 
 showPopup(title, text) {
@@ -191,5 +194,34 @@ siguiente_nombre(id,numero=this.cantidad_formulas+1){
     }
   });
 }
+
+
+traerCronograma(id){
+  
+  firebase.database().ref('/cronograma/'+id+'/').on('value', (snapshot) => {
+    
+
+    snapshot.forEach(dia => {
+
+      dia.forEach(meds => {
+        var keyMed = meds.key;
+
+        var fecha = meds.child('fecha').val();
+        
+        var hora = meds.child('hora').val();
+        var medicamento = meds.child('medicamento').val();
+        var presentacion = meds.child('presentacion').val();
+        
+        
+
+        return false;
+      });
+        
+        
+        return false;
+      });
+
+   });
+ }
 
 }
