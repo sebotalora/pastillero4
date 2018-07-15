@@ -61,6 +61,7 @@ export class LoginPage {
       dismissOnPageChange: true
     }).present();
    self.navCtrl.push(TabsPage);
+   this.localNotifications.cancelAll();
    this.actualizarCronograma(this.bd.idactual());
    localStorage.setItem("Correo_Pastillero", this.user.email);
    localStorage.setItem("Clave_Pastillero", this.user.password);
@@ -109,13 +110,13 @@ export class LoginPage {
     snapshot.forEach(dia => {
 
       dia.forEach(meds => {
-        var keyMed = meds.key;
+      //  var keyMed = meds.key;
 
         var fecha = meds.child('fecha').val();
         var hora = meds.child('hora').val();
         var medicamento = meds.child('medicamento').val();
         var presentacion = meds.child('presentacion').val();
-        console.log(fecha,hora);
+       // console.log(fecha,hora);
         this.notificacion(this.fecha(fecha,hora),this.texto(presentacion,medicamento));
 
         return false;
@@ -147,7 +148,7 @@ export class LoginPage {
 
 texto(present,medicamento){
   var textof="";
-  if(present.toLowerCase().slice(-1)=="s"){
+  if(present.slice(-1)=="s" || present.slice(-1)=="S"){
     
     textof=medicamento+" - 1 "+present.slice(0,-1);
   }else{

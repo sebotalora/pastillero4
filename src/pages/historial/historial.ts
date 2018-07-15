@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Camera } from '@ionic-native/camera';
 import { NavController, ModalController, ActionSheetController, AlertController, LoadingController } from 'ionic-angular';
-import { GraficasPage } from '../graficas/graficas';
+
 import { BdfirebaseProvider } from '../../providers/bdfirebase/bdfirebase';
 import firebase from 'firebase';
 
@@ -18,6 +18,12 @@ export class HistorialPage {
   public base64Image: string;
   id_: string;
   siguiente_formula="";
+  vacio=true;
+
+  listaGraf=[];
+ listaMes=[];
+ listaMed=[];
+ datosSuma=[];
   
   constructor(public loadingCtrl: LoadingController, public navCtrl: NavController,  private bd: BdfirebaseProvider,
     private camera: Camera, private actionSheetCtrl: ActionSheetController, 
@@ -26,12 +32,14 @@ export class HistorialPage {
       let self = this;
       self.loadingCtrl.create({
       content: '<ion-spinner name="crescent"></ion-spinner> Espera un momento...',
-      duration: 1500,
+      duration: 1700,
       }).present();
 
-      
-      this.init_formulas(this.bd.idactual());
-      
+      var idd=this.bd.idactual();
+      this.init_formulas(idd);
+      this.traerCronograma(idd);
+
+  
       
     }
 
@@ -60,8 +68,12 @@ this.camera.getPicture(options).then((imagePath) => {
     
 grafica(){
  // this.navCtrl.push(GraficasPage);
+ 
+ this.datosGrafica1();
+ console.log("A:",this.listaMes);
+ console.log("B:",this.datosSuma);
  let modal_dia = this.modalCtrl.create('GraficasPage', { 
-  cant: 2
+  listaMes: this.listaMes, datosSuma:this.datosSuma, listaMed: this.listaMed, listaGraf:this.listaGraf
 });
 modal_dia.present();
 }
@@ -103,7 +115,16 @@ presentActionSheet() {
       {
         text: 'Ingresar fórmula manualmente',
         handler: () => {
-          this.takePicture(this.camera.PictureSourceType.CAMERA);
+          var lista=[];
+          
+          let modal_verificacion = this.modalCtrl.create('MedicamentoFormulaPage', { 
+            data: lista,
+            total:1,
+            med: 1,
+            banderaFinal: true,
+            siguiente: this.siguiente_formula
+          });
+          modal_verificacion.present();
         }
       },
       {
@@ -115,6 +136,9 @@ presentActionSheet() {
   actionSheet.present();
 }
 
+vacioNO(){
+  this.vacio=false;
+}
 
 cant_formulas(cant){
   this.cantidad_formulas = cant;
@@ -138,7 +162,7 @@ init_formulas(id){
    // console.log("Usuario: "+snapshot.key);
 
     snapshot.forEach(childSnapshot => {
-      
+      this.vacioNO();
       var keyFormula = childSnapshot.key;
       var formula_array= new Array();
 
@@ -177,6 +201,11 @@ init_formulas(id){
    
 }
 
+addContador(){
+  this.contador_formulas=this.contador_formulas+1;
+  return this.contador_formulas;
+}
+
 ver_formula(datos){
   console.log("datos");
   console.log(datos);
@@ -204,15 +233,19 @@ traerCronograma(id){
     snapshot.forEach(dia => {
 
       dia.forEach(meds => {
-        var keyMed = meds.key;
+       // var keyMed = meds.key;
+        var meses=["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 
         var fecha = meds.child('fecha').val();
         
-        var hora = meds.child('hora').val();
+        var fechaaux = fecha.split("-");
+        var mes_anio=meses[parseInt(fechaaux[1])-1]+"-"+fechaaux[0];
+        
         var medicamento = meds.child('medicamento').val();
         var presentacion = meds.child('presentacion').val();
-        
-        
+       // console.log([mes_anio,fechaaux[0],fechaaux[1],fechaaux[2],medicamento,presentacion]);
+       if (presentacion==null){presentacion="TABLETAS";}
+        this.listaTodo([mes_anio,fechaaux[0],fechaaux[1],fechaaux[2],medicamento,presentacion]);
 
         return false;
       });
@@ -222,6 +255,36 @@ traerCronograma(id){
       });
 
    });
+   
+ }
+
+ 
+
+ datosgrafica=[];
+ listaTodo(arreglo){
+  
+  this.listaGraf.push(arreglo);
+  if (this.listaMes.indexOf(arreglo[0])==-1){
+    this.listaMes.push(arreglo[0]);
+  }
+  if (this.listaMed.indexOf(arreglo[4])==-1){
+    this.listaMed.push(arreglo[4]);
+  }
+  //console.log(this.listaMes);
+ }
+ 
+ datosGrafica1(){
+  this.datosSuma=[];
+  var contarMes=0;
+  for(var j=0;j < this.listaMes.length; j++){
+    contarMes=0;
+   for(var i=0;i < this.listaGraf.length; i++){
+      if (this.listaMes[j]==this.listaGraf[i][0]){
+        contarMes=contarMes+1;
+      }
+   }
+   this.datosSuma.push(contarMes);
+  }
  }
 
 }

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Chart } from 'chart.js';
 
 /**
@@ -18,14 +18,24 @@ export class GraficasPage {
 
 
  
-    @ViewChild('lineCanvas') lineCanvas;  
+    @ViewChild('lineCanvas') lineCanvas;     
 
   barChart: any;
   doughnutChart: any;
   lineChart: any;
-
-  constructor(public navCtrl: NavController) {
-
+  listaMes:any;
+  datosSuma:any;
+  listaMed:any;
+  listaGraf:any;
+  constructor(public navCtrl: NavController,public navParams: NavParams,private modalCtrl: ModalController) {
+    this.listaMes = this.navParams.get('listaMes');
+    this.datosSuma = this.navParams.get('datosSuma');
+    this.listaMed = this.navParams.get('listaMed');
+    this.listaGraf = this.navParams.get('listaGraf');
+    console.log("Mes: ",this.listaMes);
+    console.log("Dat: ",this.datosSuma);
+    console.log("listaMed: ",this.listaMed);
+   
   }
 
   ionViewDidLoad() {
@@ -37,7 +47,7 @@ export class GraficasPage {
 
           type: 'line',
           data: {
-              labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"],
+              labels: this.listaMes,
               datasets: [
                   {
                       label: "Tomas de medicamentos",
@@ -58,7 +68,7 @@ export class GraficasPage {
                       pointHoverBorderWidth: 2,
                       pointRadius: 1,
                       pointHitRadius: 10,
-                      data: [65, 59, 80, 81, 56, 55, 40],
+                      data: this.datosSuma,
                       spanGaps: false,
                   }
               ]
@@ -71,5 +81,27 @@ export class GraficasPage {
   cerrar(){
     this.navCtrl.pop();
   }
+  graf_med(med){
+      
+      console.log("ir a: ",med);
+      let modal_dia = this.modalCtrl.create('GraficaMedicamentoPage', { 
+        listaMes: this.listaMes, datosSuma:this.datosGraficaMed(med), med:med
+      });
+      modal_dia.present();
+  }
 
+  datosGraficaMed(med){
+    var datos=[];
+    var contarMes=0;
+    for(var j=0;j < this.listaMes.length; j++){
+      contarMes=0;
+     for(var i=0;i < this.listaGraf.length; i++){
+        if (this.listaMes[j]==this.listaGraf[i][0] && med==this.listaGraf[i][4]){
+          contarMes=contarMes+1;
+        }
+     }
+     datos.push(contarMes);
+    }
+    return datos
+   }
 }

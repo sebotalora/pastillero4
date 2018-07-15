@@ -11,13 +11,13 @@ export class HomePage {
   dias_ord: any = []
 
   images: any = [];
-  dias= [['Domingo','Fecha','assets/imgs/dias_semana-02.png'],
-  ['Lunes','Fecha','assets/imgs/dias_semana-03.png'],
-  ['Martes','Fecha','assets/imgs/dias_semana-04.png'],
-  ['Miércoles','Fecha','assets/imgs/dias_semana-05.png'],
-  ['Jueves','Fecha','assets/imgs/dias_semana-06.png'],
-  ['Viernes','Fecha','assets/imgs/dias_semana-07.png'],
-  ['Sábado','Fecha','assets/imgs/dias_semana-08.png']
+  dias= [['Domingo','Fecha','assets/imgs/dias_semana-00.png'],
+  ['Lunes','Fecha','assets/imgs/dias_semana-00.png'],
+  ['Martes','Fecha','assets/imgs/dias_semana-00.png'],
+  ['Miércoles','Fecha','assets/imgs/dias_semana-00.png'],
+  ['Jueves','Fecha','assets/imgs/dias_semana-00.png'],
+  ['Viernes','Fecha','assets/imgs/dias_semana-00.png'],
+  ['Sábado','Fecha','assets/imgs/dias_semana-00.png']
 ];
   constructor(public navCtrl: NavController,public modalCtrl: ModalController, private localNotifications: LocalNotifications) {
     let indice=this.hoy.getDay();
@@ -67,7 +67,10 @@ export class HomePage {
       text: 'LOSARTAN - 1 tableta',
       trigger: {at: new Date(new Date().getTime() + 10000)},
       icon: 'file://assets/imgs/pildoras-01.png',
-      sound: 'file://assets/sonidos/open-ended.mp3'
+      sound: 'file://assets/sonidos/open-ended.mp3',
+      vibrate: true,
+      wakeup: true,
+      color:'2dd30c'
    }); 
 
    

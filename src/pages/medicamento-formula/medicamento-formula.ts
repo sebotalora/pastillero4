@@ -105,6 +105,7 @@ export class MedicamentoFormulaPage implements OnInit{
     
     if(this.renglon.M !=null){
       var tamanoM= Object.keys(this.renglon.M).length;
+      console.log(this.renglon.M)
       for (var i = 0; i < tamanoM; i++) {
         this.medicamento = this.medicamento.concat(this.renglon.M[i], " ");
       }
@@ -282,7 +283,7 @@ export class MedicamentoFormulaPage implements OnInit{
     );
 
     this.cronograma(this.frecuencia_cant,this.frecuencia_utiempo);
-    console.log(this.cronograma_texto);
+    //console.log(this.cronograma_texto);
 
     this.cronograma_firebase(id_actual);
     

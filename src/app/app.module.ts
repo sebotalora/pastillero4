@@ -29,6 +29,7 @@ import { MedicamentoFormulaPageModule } from '../pages/medicamento-formula/medic
 import { GraficasPageModule } from '../pages/graficas/graficas.module';
 import { File } from '@ionic-native/file';
 import { FormulaPageModule } from '../pages/formula/formula.module';
+import { GraficaMedicamentoPageModule } from '../pages/grafica-medicamento/grafica-medicamento.module';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyAuq5Jxyy_U67qRka0j6Ab3mPGk4QmuLFo",
@@ -57,6 +58,7 @@ export const firebaseConfig = {
     MedicamentoFormulaPageModule,
     FormulaPageModule,
     GraficasPageModule,
+    GraficaMedicamentoPageModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule
   ],

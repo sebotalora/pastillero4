@@ -18,13 +18,23 @@
                 <ion-input type="text" placeholder="Apellido" name="apellido" [(ngModel)]="registerCredentials.apellido" required></ion-input>
               </ion-item>
               <ion-item>
-                <ion-input type="text" placeholder="Telefono" name="telefono" [(ngModel)]="registerCredentials.telefono" required></ion-input>
+                <ion-input type="number" placeholder="Telefono" name="telefono" [(ngModel)]="registerCredentials.telefono" required></ion-input>
               </ion-item>
+              Sexo
               <ion-item>
-                  <ion-input type="text" placeholder="Sexo" name="sexo" [(ngModel)]="registerCredentials.sexo" required></ion-input>
+                  <!-- 
+                    <ion-input type="text" placeholder="Sexo" name="sexo" [(ngModel)]="registerCredentials.sexo" required></ion-input>
+                   -->
+                   
+                  <ion-select multiple="false" [placeholder]="Sexo" [(ngModel)]="registerCredentials.sexo" name="sexo"  required>
+                           
+                      <ion-option [value]="F" >F</ion-option>
+                      <ion-option [value]="M" >M</ion-option>
+                    </ion-select>
+                
                 </ion-item>
               <ion-item>
-                  <ion-input type="text" placeholder="Edad" name="edad" [(ngModel)]="registerCredentials.edad" required></ion-input>
+                  <ion-input type="number" placeholder="Edad" name="edad" [(ngModel)]="registerCredentials.edad" required></ion-input>
                 </ion-item>
                 <ion-item>
                   <ion-datetime placeholder="Fecha de Nacimiento" displayFormat="YYYY-MM-DD"></ion-datetime>
@@ -32,7 +42,7 @@
 
 
             <ion-item>
-              <ion-input type="text" placeholder="Correo" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
+              <ion-input type="email" placeholder="Correo" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
             </ion-item>
 
             <ion-item>

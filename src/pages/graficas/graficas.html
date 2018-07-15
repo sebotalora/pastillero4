@@ -18,20 +18,19 @@
         </ion-card-content>
       </ion-card>
 
-
       <ion-card>
         <ion-card-header style="font-weight: bold;">
           Ver gráficas por medicamento
         </ion-card-header>
       
-        <ion-list>
-          <button ion-item icon-end> ACETAMINOFEN <ion-icon name="arrow-dropright"></ion-icon></button>
-      
-          <button ion-item icon-end> LOSARTAN <ion-icon name="arrow-dropright"></ion-icon></button>
-      
-        
-      
+        <ion-list *ngFor="let med of listaMed">
+          <ion-item >
+            <button ion-item icon-end (click)="graf_med(med)"> {{med}} <ion-icon name="arrow-dropright"></ion-icon></button> 
+       
+          </ion-item>
         </ion-list>
+
+        
       </ion-card>
 
       <button ion-button block color="primary" (click)="cerrar()">Atrás</button>
