@@ -14,9 +14,20 @@
                   <ion-label style="font-weight: bold;">Medicamento:</ion-label>
               
 
-            <ion-item>
+            <!-- <ion-item>
               <ion-input type="text" placeholder="Medicamento" [(ngModel)]="medicamento" name="medicament" formControlName="medicament" [class.error1]="!group.controls.medicament.valid" required></ion-input>
-            </ion-item>
+            </ion-item> -->
+
+            <ion-item>
+                <ion-label stacked>Medicamento:</ion-label>
+                <ion-select [(ngModel)]="medicamento" name="medicament" formControlName="medicament"  [class.error1]="!group.controls.medicament.valid">
+                   
+                  <ion-option *ngFor="let item of medicamentosData" [value]="item" multiple="false" style="white-space: normal;">{{item}}</ion-option>
+                  
+                </ion-select>
+              </ion-item>
+
+
             <ion-item no-lines *ngIf="getMedicament().hasError('required')  && getMedicament().touched">         
               <div class="error" *ngIf="getMedicament().hasError('required') && getMedicament().touched">
                 Medicamento es un campo requerido
@@ -43,7 +54,7 @@
                     <ion-label stacked>Presentación:</ion-label>
                     <ion-select [(ngModel)]="presentacion" name="presentacio" formControlName="presentacio" [class.error1]="!group.controls.presentacio.valid">
                            
-                      <ion-option *ngFor="let item of presentacionData" [value]="item" multiple="false" >{{item}}</ion-option>
+                      <ion-option *ngFor="let item of presentacionData" [value]="item" multiple="false"  >{{item}}</ion-option>
                       
                     </ion-select>
                   </ion-item>

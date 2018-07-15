@@ -35,6 +35,7 @@ export class GraficasPage {
     console.log("Mes: ",this.listaMes);
     console.log("Dat: ",this.datosSuma);
     console.log("listaMed: ",this.listaMed);
+    console.log("listaGraf: ",this.listaGraf);
    
   }
 

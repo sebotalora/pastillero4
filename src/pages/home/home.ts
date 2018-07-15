@@ -43,10 +43,10 @@ export class HomePage {
   }
 
   verdia(dia){
-    console.log("a: ",dia);
+    
     var fecha=dia[1].split("/");
     var busqueda=fecha[2]+"-"+this.dosdigitos(fecha[1])+"-"+this.dosdigitos(fecha[0]);
-    console.log("BB: ",busqueda);
+    
     let modal_dia = this.modalCtrl.create('FormulaActualPage', { 
       busqueda: busqueda
     });
@@ -86,9 +86,9 @@ export class HomePage {
 
   getNoti(){
     this.localNotifications.getAll().then(function(notification) {
-      console.log("AQUI!!!//////////////");
+      //console.log("AQUI!!!//////////////");
       //console.log(JSON.stringify(notification));
-      console.log(Object.keys(notification).length);
+      //console.log(Object.keys(notification).length);
       });
   }
 }

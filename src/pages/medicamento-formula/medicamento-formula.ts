@@ -21,8 +21,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
   templateUrl: 'medicamento-formula.html',
 })
 export class MedicamentoFormulaPage implements OnInit{
-
-  medicamento = "";
+  medicamento: string;
+  medicamentosData = [];
   cantidad_total: number;
   presentacion: string;
   frecuencia_cant: number;
@@ -105,10 +105,16 @@ export class MedicamentoFormulaPage implements OnInit{
     
     if(this.renglon.M !=null){
       var tamanoM= Object.keys(this.renglon.M).length;
-      console.log(this.renglon.M)
+      //console.log(this.renglon.M[0]);
       for (var i = 0; i < tamanoM; i++) {
-        this.medicamento = this.medicamento.concat(this.renglon.M[i], " ");
+        this.medicamentosData.push(this.renglon.M[i]);
       }
+      if (tamanoM>=1){
+        this.medicamento=this.medicamentosData[0];
+      }else{
+        this.medicamento="";
+      }
+      
     }
 
     if(this.renglon.N !=null){
@@ -146,10 +152,10 @@ export class MedicamentoFormulaPage implements OnInit{
     }else{
       this.frecuencia_utiempo= "HORAS";
     }
-    console.log(this.frecuencia_utiempo);
+    //console.log(this.frecuencia_utiempo);
     
     this.fecha_inicio= new Date().toISOString().slice(0, 10);
-    console.log(this.fecha_inicio);
+    //console.log(this.fecha_inicio);
     this.hora_inicio= "08:00";
 
     
@@ -205,7 +211,7 @@ export class MedicamentoFormulaPage implements OnInit{
       0
     );
     
-    console.log("Fecha Inicial: ",fecha_y_hora.toISOString());
+    //console.log("Fecha Inicial: ",fecha_y_hora.toISOString());
     return fecha_y_hora;
   }
 
@@ -258,10 +264,17 @@ export class MedicamentoFormulaPage implements OnInit{
   }
 
   registrar() {
+    let self = this;
+    self.loadingCtrl.create({
+      content: '<ion-spinner name="crescent"></ion-spinner> Espera un momento...',
+      duration: 8000,
+      dismissOnPageChange: true
+    }).present();
+    var id_actual=this.bd.idactual();
     if (this.group.valid) {
 
       this.bd.addMedicamento(
-        this.bd.idactual(),
+        id_actual,
         this.nombre_formula,
         "m".concat(this.numero.toString()),
         this.medicamento,
@@ -272,21 +285,19 @@ export class MedicamentoFormulaPage implements OnInit{
         this.fecha_inicio,
         this.hora_inicio
       );
+
       this.notificacion(this.idNotif(this.fecha_inicio,this.hora_inicio),this.fecha(this.fecha_inicio,this.hora_inicio), this.texto());
-
-    var id_actual=this.bd.idactual();
-
-    this.bd.addfecha2(
+    
+      this.bd.addfecha2(
       id_actual,
       this.nombre_formula,
       this.fecha_inicio= new Date().toISOString().slice(0, 10)
     );
 
     this.cronograma(this.frecuencia_cant,this.frecuencia_utiempo);
-    //console.log(this.cronograma_texto);
-
     this.cronograma_firebase(id_actual);
-    
+
+    this.consultarEfectos();
       
     this.nav.pop();
     }else{
@@ -300,7 +311,7 @@ export class MedicamentoFormulaPage implements OnInit{
   cronograma_firebase(id_actual){
     
     var cantidad_med= this.cronograma_texto.length;
-    console.log("canti:",cantidad_med)
+   // console.log("canti:",cantidad_med)
     
      for(var i = 0; i < cantidad_med; i++){
 
@@ -453,6 +464,12 @@ export class MedicamentoFormulaPage implements OnInit{
       return this.idNotif(fecha,hora,cont+1);
     }
   
+  }
+
+  consultarEfectos(){
+    console.log("Efe: ",this.medicamento);
+    var url='http://186.154.95.101/ocrpastillero/efectosAdversos?medicamento="'+this.medicamento+'"';
+    console.log(this.http.get(url));
   }
 
 }

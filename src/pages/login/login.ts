@@ -116,7 +116,7 @@ export class LoginPage {
         var hora = meds.child('hora').val();
         var medicamento = meds.child('medicamento').val();
         var presentacion = meds.child('presentacion').val();
-       // console.log(fecha,hora);
+       
         this.notificacion(this.idNotif(fecha,hora),this.fecha(fecha,hora),this.texto(presentacion,medicamento));
 
         return false;

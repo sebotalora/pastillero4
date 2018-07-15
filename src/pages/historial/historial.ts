@@ -237,7 +237,7 @@ traerCronograma(id){
         var meses=["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 
         var fecha = meds.child('fecha').val();
-        
+        console.log(fecha);
         var fechaaux = fecha.split("-");
         var mes_anio=meses[parseInt(fechaaux[1])-1]+"-"+fechaaux[0];
         
