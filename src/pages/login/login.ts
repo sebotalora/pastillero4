@@ -117,7 +117,7 @@ export class LoginPage {
         var medicamento = meds.child('medicamento').val();
         var presentacion = meds.child('presentacion').val();
        // console.log(fecha,hora);
-        this.notificacion(this.fecha(fecha,hora),this.texto(presentacion,medicamento));
+        this.notificacion(this.idNotif(fecha,hora),this.fecha(fecha,hora),this.texto(presentacion,medicamento));
 
         return false;
       });
@@ -129,11 +129,11 @@ export class LoginPage {
    });
  }
 
- notificacion(fecha, texto){
+ notificacion(id,fecha, texto){
   //"assets/sonidos/open-ended.mp3"
 
   this.localNotifications.schedule({
-    id: 1,
+    id: id,
     title: 'Hora de tomar tu medicamento:',
     text: texto,
     trigger: {at: fecha},
@@ -170,8 +170,29 @@ fecha(fecha,hora){
     0,
     0
   );
-  
+ 
   return fecha_y_hora;
 }
+
+id_notificaciones=[];
+
+idNotif(fecha: String,hora : String,cont=1){
+  var id;
+  var parte_fecha =fecha.split('-');
+  var parte_hora =hora.split(':');
+  id=parte_fecha[0]+parte_fecha[1]+parte_fecha[2]+parte_hora[0]+parte_hora[1]+cont.toString();
+
+  if(this.id_notificaciones.indexOf(id)==-1){
+    
+    this.id_notificaciones.push(id);
+    return parseInt(id);
+  }else{
+    
+    return this.idNotif(fecha,hora,cont+1);
+  }
+
+}
+
+
 
 }

@@ -20,6 +20,7 @@ export class FormulaPage {
   medicamentos = [];
   fechaformula: string;
   contadorMed=0;
+  textojson="{";
 
   constructor(public nav: NavController, public navParams: NavParams,private bd: BdfirebaseProvider) {
     
@@ -32,14 +33,23 @@ export class FormulaPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad FormulaPage');
   }
+  sumarJson(texto){
+    this.textojson=this.textojson+texto;
+  }
+  terminar(){
+    this.textojson=this.textojson.slice(0,-1)+"}}}"
+    console.log(this.textojson);
+  }
 
   traerFormula(id){
     firebase.database().ref('/historias/'+id+'/'+this.datos[1]).on('value', (snapshot) => {
       this.setFecha(snapshot.child('fecha').val());
-
-      snapshot.child('medicamentos').forEach(meds => {
+      this.sumarJson('"'+this.datos[1]+'":{ "datos":{"fecha":"'+
+      snapshot.child("fecha").val()+'"},"medicamentos":{');
+      
+          snapshot.child('medicamentos').forEach(meds => {
           var keyMed = meds.key;
-
+          
           var fecha_inicio = meds.child('fecha_inicio').val();
           var cantidad = meds.child('cantidad').val();
           var frecuencia = meds.child('frecuencia').val();
@@ -48,6 +58,15 @@ export class FormulaPage {
           var tiempo = meds.child('tiempo').val();
           var presentacion = meds.child('presentacion').val();
           
+          this.sumarJson('"'+keyMed+'":{'+
+        '"cantidad":'+cantidad.toString()+','+
+        '"fecha_inicio":"'+fecha_inicio+'",'+
+        '"frecuencia":"'+frecuencia+'",'+
+        '"nombre":"'+nombre+'",'+
+        '"tiempo":'+tiempo+','+
+        '"presentacion":"'+presentacion+'"},'
+      );
+
           this.agregaMedicamento(keyMed,nombre,cantidad,presentacion,tiempo,frecuencia,fecha_inicio,hora);
 
           return false;

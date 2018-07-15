@@ -59,13 +59,22 @@ export class HomePage {
   }
 
   notificacion(){
+    this.getNoti();
     //"assets/sonidos/open-ended.mp3"
-  
+    var fecha_y_hora = new Date(
+      parseInt('2018'), 
+      parseInt('07') - 1, 
+      parseInt('15'),
+      parseInt('09'),
+      parseInt('50'),
+      0,
+      0
+    );
     this.localNotifications.schedule({
       id: 1,
       title: 'Hora de tomar tu medicamento:',
       text: 'LOSARTAN - 1 tableta',
-      trigger: {at: new Date(new Date().getTime() + 10000)},
+      trigger: {at: fecha_y_hora},
       icon: 'file://assets/imgs/pildoras-01.png',
       sound: 'file://assets/sonidos/open-ended.mp3',
       vibrate: true,
@@ -73,7 +82,13 @@ export class HomePage {
       color:'2dd30c'
    }); 
 
-   
-   
+  }
+
+  getNoti(){
+    this.localNotifications.getAll().then(function(notification) {
+      console.log("AQUI!!!//////////////");
+      //console.log(JSON.stringify(notification));
+      console.log(Object.keys(notification).length);
+      });
   }
 }

@@ -272,7 +272,7 @@ export class MedicamentoFormulaPage implements OnInit{
         this.fecha_inicio,
         this.hora_inicio
       );
-      this.notificacion(this.fecha(this.fecha_inicio,this.hora_inicio), this.texto());
+      this.notificacion(this.idNotif(this.fecha_inicio,this.hora_inicio),this.fecha(this.fecha_inicio,this.hora_inicio), this.texto());
 
     var id_actual=this.bd.idactual();
 
@@ -392,11 +392,11 @@ export class MedicamentoFormulaPage implements OnInit{
     this.appCtrl.getRootNav().push(TabsPage);
   }
 
-  notificacion(fecha, texto){
+  notificacion(id,fecha, texto){
     //"assets/sonidos/open-ended.mp3"
   
     this.localNotifications.schedule({
-      id: 1,
+      id: id,
       title: 'Hora de tomar tu medicamento:',
       text: texto,
       trigger: {at: fecha},
@@ -434,6 +434,25 @@ export class MedicamentoFormulaPage implements OnInit{
     );
     
     return fecha_y_hora;
+  }
+
+  id_notificaciones=[];
+
+  idNotif(fecha: String,hora : String,cont=1){
+    var id;
+    var parte_fecha =fecha.split('-');
+    var parte_hora =hora.split(':');
+    id=parte_fecha[0]+parte_fecha[1]+parte_fecha[2]+parte_hora[0]+parte_hora[1]+cont.toString()+"0";
+  
+    if(this.id_notificaciones.indexOf(id)==-1){
+      
+      this.id_notificaciones.push(id);
+      return parseInt(id);
+    }else{
+      
+      return this.idNotif(fecha,hora,cont+1);
+    }
+  
   }
 
 }
